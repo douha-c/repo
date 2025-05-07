@@ -12,14 +12,13 @@ import CityForm from './cities/city-form';
 import DeleteDialog from './cities/delete-dialog';
 
 export default function Cities({ cities }) {
-    const { __ } = useLang();
     const [openDialog, setOpenDialog] = useState(false);
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-    const [selectedCity, setSelectedCity] = useState(null);
+    // const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     const { direction } = useDirection();
 
-    const deleteMessage = __('The [:model] was successfully deleted', { model: __('city') });
+   // const deleteMessage = 'The Product was successfully deleted';
 
     const {
         data,
@@ -33,32 +32,36 @@ export default function Cities({ cities }) {
         clearErrors,
     } = useForm({
         name: '',
-        name_ar: '',
+        description: '',
+        price: '',
+        stock: '',
     });
 
-    const handleOpenForm = (city = null) => {
-        setSelectedCity(city);
+    const handleOpenForm = (product = null) => {
+        setSelectedProduct(product);
         setData({
-            name: city ? city.name : '',
-            name_ar: city ? city.name_ar : '',
+            name: product ? product.name : '',
+            description: product ? product.description : '',
+            price: product ? product.price : '',
+            stock: product ? product.stock : '',
         });
         clearErrors();
         setOpenDialog(true);
     };
 
-    const handleOpenDelete = (city) => {
-        setSelectedCity(city);
-        setOpenDeleteDialog(true);
-    };
+    // const handleOpenDelete = (product) => {
+    //     setSelectedProduct(product);
+    //     setOpenDeleteDialog(product);
+    // };
 
-    const handleDelete = () => {
-        destroy(route('admin.city.delete', selectedCity.id), {
-            onSuccess: () => {
-                toast.success(deleteMessage);
-                setOpenDeleteDialog(false);
-            },
-        });
-    };
+    // const handleDelete = () => {
+    //     destroy(route('clinic.products.delete', selectedProduct.id), {
+    //         onSuccess: () => {
+    //             toast.success(deleteMessage);
+    //             setOpenDeleteDialog(false);
+    //         },
+    //     });
+    // };
 
     return (
         <AppLayout header={__('Cities')}>
@@ -67,9 +70,9 @@ export default function Cities({ cities }) {
                 <div className="mb-5 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
                     <h1 className="text-3xl font-bold">{__('Cities')}</h1>
                     <Button onClick={() => handleOpenForm(null)}>
-                        <Plus className="mr-2 h-4 w-4" /> {__('Add :model', { model: __('city', {}, true) })}
+                        <Plus className="mr-2 h-4 w-4" /> Add Product
                     </Button>
-                </div>
+{/*                 </div>
                 <DataTable
                     columns={CitiesColumns({
                         handleOpenForm,
@@ -83,12 +86,12 @@ export default function Cities({ cities }) {
                     }}
                     direction={direction}
                 />
-            </div>
+            </div> */}
 
-            <CityForm
+            <ProductForm
                 open={openDialog}
                 setOpen={setOpenDialog}
-                selectedCity={selectedCity}
+                selectedProduct={selectedProduct}
                 {...{
                     data,
                     setData,
@@ -100,13 +103,13 @@ export default function Cities({ cities }) {
                     clearErrors,
                 }}
             />
-            <DeleteDialog
+{/*             <DeleteDialog
                 open={openDeleteDialog}
                 setOpen={setOpenDeleteDialog}
                 handleDelete={handleDelete}
                 processing={processing}
                 direction={direction}
-            />
+            /> */}
         </AppLayout>
     );
 }
