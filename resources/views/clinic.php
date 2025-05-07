@@ -12,7 +12,7 @@ Route::group(['middleware' => ['user_role:'.UserRole::CLINIC->value], 'as' => 'c
 
     Route::group(['prefix' => 'products'], function () {
         Route::get('/', [ProductController::class, 'index'])->name('products.index');
-        Route::post('update/{product}', [ProductController::class, 'update'])->name('products.update');
+        Route::patch('update/{product}', [ProductController::class, 'update'])->name('products.update');
         Route::post('/', [ProductController::class, 'store'])->name('products.store');
         Route::delete('/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
         
