@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
+
+class CategoryController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+       // $categories = Category::all();
+        //return Inertia::render('clinic/products', [
+            //'categories' => $categories,
+        //]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreCategoryRequest $request)
+    {
+        Gate::authorize('create', Category::class);
+        $category = Category::create($request->validated());
+        return redirect()->back()->with('success', 'Category created successfully.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateCategoryRequest $request, string $id)
+    {
+        Gate::authorize('update', Category::class);
+        $category = Category::findOrFail($id);
+        $category->update($request->validated());
+        return redirect()->back()->with('success', 'Category updated successfully.');
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        Gate::authorize('delete', Category::class);
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->back()->with('success', 'Category deleted successfully.');
+    }
+}
