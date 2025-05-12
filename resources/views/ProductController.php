@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
@@ -16,10 +17,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-
-        $products=Product::All();
+        $products = Product::with('category')->get();
+        $categories = Category::all();
         return Inertia::render('clinic/products', [
             'products' => $products,
+            'categories' => $categories,
         ]);
     }
 
