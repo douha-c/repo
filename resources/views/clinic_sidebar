@@ -1,0 +1,98 @@
+import { CollapseNavMain } from '@/components/collapse-nav-main';
+import LanguageToggleTabs from '@/components/language-toggle-tabs';
+import { NavFooter } from '@/components/nav-footer';
+import { NavUser } from '@/components/nav-user';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    useSidebar,
+} from '@/components/ui/sidebar';
+import { useLang } from '@/hooks/Lang';
+import { Link } from '@inertiajs/react';
+import { Banknote, CircleDollarSign, LayoutGrid, Wallet ,PackageSearch} from 'lucide-react';
+import AppLogo from './app-logo';
+
+export function ClinicAppSidebar({ direction, ...props }) {
+    const { state } = useSidebar();
+    const { __ } = useLang();
+    const mainNavItems = [
+        {
+            title: __('dashboard', {}, true) + ' clinic',
+            id: 'dashboard',
+            url: route('clinic.dashboard'),
+            icon: LayoutGrid,
+            items: [],
+        },{
+            title: __('Product', {}, true) + ' clinic',
+            id: 'Product',
+            url: route('clinic.products.index'),
+            icon: PackageSearch,
+            items: [],
+        },
+        {
+            title: __('BIG blabla', {}, true),
+            id: 'bigblabla',
+            url: '#',
+            icon: CircleDollarSign,
+            items: [
+                {
+                    title: __('small blabla 1', {}, true),
+                    id: 'smallbalal1',
+
+                    url: '#',
+                    icon: Wallet,
+                },
+                {
+                    title: __('small blabla 1', {}, true),
+                    id: 'smallbalal2',
+
+                    url: '#',
+                    icon: Banknote,
+                },
+            ],
+        },
+    ];
+
+    const footerNavItems = [
+        /* {
+            title: 'Repository',
+            url: 'https://github.com/laravel/react-starter-kit',
+            icon: Folder,
+        },
+        {
+            title: 'Documentation',
+            url: 'https://laravel.com/docs/starter-kits',
+            icon: BookOpen,
+        }, */
+    ];
+    return (
+        <Sidebar collapsible="icon" variant="inset" side={direction}>
+            <SidebarHeader>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton size="lg" asChild>
+                            <Link href="/" prefetch>
+                                <AppLogo direction={direction} />
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarHeader>
+
+            <SidebarContent>
+                <CollapseNavMain items={mainNavItems} side={direction} />
+            </SidebarContent>
+
+            <SidebarFooter className="gap-.5">
+                <LanguageToggleTabs state={state} />
+                <NavFooter items={footerNavItems} className="mt-auto" />
+                <NavUser />
+            </SidebarFooter>
+        </Sidebar>
+    );
+}
